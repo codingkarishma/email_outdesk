@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Outreach Desk — draft a cold email</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --paper: #faf6ee;
+    --paper-line: #e4dcc9;
+    --ink: #262319;
+    --ink-soft: #6b6455;
+    --stamp: #a8362a;
+    --stamp-soft: #f1e0d9;
+    --sage: #5c6b4f;
+    --sage-soft: #e8ebe0;
+    --card: #ffffff;
+    --radius: 3px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'IBM Plex Sans', sans-serif;
+    color: var(--ink);
+    background:
+      linear-gradient(var(--paper), var(--paper));
+    background-color: var(--paper);
+    min-height: 100vh;
+  }
+  body::before {
+    content: "";
+    position: fixed; inset: 0; pointer-events: none; opacity: .5;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 27px, var(--paper-line) 27px, var(--paper-line) 28px);
+  }
+  header {
+    position: relative;
+    display: flex; align-items: baseline; justify-content: space-between;
+    padding: 34px 40px 20px;
+    border-bottom: 2px solid var(--ink);
+    max-width: 1180px; margin: 0 auto;
+  }
+  header .mark { display: flex; align-items: baseline; gap: 14px; }
+  header h1 {
+    font-family: 'Source Serif 4', serif;
+    font-weight: 700; font-size: 30px; letter-spacing: -0.01em; margin: 0;
+  }
+  header .tag {
+    font-size: 13px; color: var(--ink-soft); font-style: italic;
+    font-family: 'Source Serif 4', serif;
+  }
+  main {
+    max-width: 1180px; margin: 0 auto; padding: 34px 40px 60px;
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 36px;
+    position: relative;
+  }
+  @media (max-width: 940px) { main { grid-template-columns: 1fr; } }
+
+  h2.section-title {
+    font-family: 'Source Serif 4', serif; font-size: 15px; font-weight: 600;
+    margin: 0 0 4px; color: var(--ink);
+  }
+  .section-sub { font-size: 12.5px; color: var(--ink-soft); margin: 0 0 20px; }
+
+  .field-group { margin-bottom: 22px; }
+  .field-group > div { display: flex; flex-direction: column; gap: 5px; margin-bottom: 13px; }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 520px) { .row2 { grid-template-columns: 1fr; } }
+  label { font-size: 12.5px; font-weight: 500; color: var(--ink); }
+  label em { color: var(--ink-soft); font-style: normal; font-weight: 400; }
+  input, textarea, select {
+    font-family: inherit; font-size: 14px; color: var(--ink);
+    background: var(--card); border: 1px solid #cfc6ae; border-radius: var(--radius);
+    padding: 9px 11px; width: 100%; outline: none;
+  }
+  textarea { resize: vertical; min-height: 60px; }
+  input:focus, textarea:focus, select:focus { border-color: var(--stamp); box-shadow: 0 0 0 3px var(--stamp-soft); }
+
+  .divider { border: none; border-top: 1px solid var(--paper-line); margin: 22px 0; }
+
+  button.send {
+    font-family: 'IBM Plex Sans', sans-serif; font-weight: 600; font-size: 14.5px;
+    background: var(--ink); color: var(--paper); border: none; border-radius: var(--radius);
+    padding: 13px 20px; width: 100%; cursor: pointer;
+  }
+  button.send:disabled { opacity: .5; cursor: default; }
+  button.send:not(:disabled):hover { background: #3a3527; }
+
+  .apikey-note { font-size: 11.5px; color: var(--ink-soft); margin-top: 10px; line-height: 1.5; }
+  .error-box {
+    margin-top: 14px; padding: 10px 13px; border-radius: var(--radius);
+    background: var(--stamp-soft); color: var(--stamp); font-size: 13px; display: none;
+    border: 1px solid #e3b6ac;
+  }
+
+  /* --- the letter itself --- */
+  .letter-wrap { position: relative; }
+  .letter {
+    background: var(--card);
+    border: 1px solid var(--paper-line);
+    box-shadow: 6px 6px 0 var(--sage-soft), 0 1px 3px rgba(0,0,0,.06);
+    padding: 40px 42px;
+    min-height: 420px;
+    display: flex; flex-direction: column;
+  }
+  .letter-empty {
+    margin: auto; text-align: center; color: var(--ink-soft); max-width: 300px;
+  }
+  .letter-empty .glyph { font-family: 'Source Serif 4', serif; font-size: 40px; color: var(--sage); margin-bottom: 10px; }
+  .letter-empty p { font-size: 13.5px; line-height: 1.6; }
+
+  .letterhead {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    padding-bottom: 16px; margin-bottom: 22px; border-bottom: 1px solid var(--paper-line);
+  }
+  .stamp {
+    font-family: 'Source Serif 4', serif; font-size: 11px; font-weight: 600; color: var(--stamp);
+    border: 1.5px solid var(--stamp); border-radius: 2px; padding: 4px 9px;
+    transform: rotate(-3deg); white-space: nowrap;
+  }
+  .subject-block .lbl { font-size: 11px; color: var(--ink-soft); margin-bottom: 3px; }
+  .subject-block .val {
+    font-family: 'Source Serif 4', serif; font-size: 19px; font-weight: 600;
+  }
+  .letter-body {
+    font-family: 'Source Serif 4', serif; font-size: 16px; line-height: 1.75;
+    white-space: pre-wrap; color: var(--ink); flex: 1;
+  }
+  .letter-actions {
+    display: flex; gap: 10px; margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--paper-line);
+    flex-wrap: wrap;
+  }
+  .letter-actions button {
+    font-family: 'IBM Plex Sans', sans-serif; font-size: 12.5px; font-weight: 500;
+    background: transparent; color: var(--ink); border: 1px solid #cfc6ae; border-radius: var(--radius);
+    padding: 7px 13px; cursor: pointer;
+  }
+  .letter-actions button:hover { border-color: var(--ink); }
+  .word-count { font-size: 11.5px; color: var(--ink-soft); margin-left: auto; align-self: center; }
+
+  .toast {
+    position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%) translateY(70px);
+    background: var(--sage); color: var(--sage-soft); font-weight: 500; font-size: 13px;
+    padding: 10px 18px; border-radius: var(--radius); opacity: 0; transition: all .22s ease; z-index: 40;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  footer { text-align: center; font-size: 12px; color: var(--ink-soft); padding: 10px 0 34px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="mark">
+    <h1>Outreach Desk</h1>
+    <span class="tag">a writing desk for cold emails</span>
+  </div>
+</header>
+
+<main>
+  <section>
+    <h2 class="section-title">Who you're writing to</h2>
+    <p class="section-sub">The more specific the detail, the less generic the email.</p>
+
+    <div class="field-group">
+      <div class="row2">
+        <div>
+          <label for="executive_name">Name</label>
+          <input id="executive_name" placeholder="Jordan Lee" />
+        </div>
+        <div>
+          <label for="executive_role">Role</label>
+          <input id="executive_role" placeholder="VP of Engineering" />
+        </div>
+      </div>
+      <div class="row2">
+        <div>
+          <label for="company_name">Company</label>
+          <input id="company_name" placeholder="Acme Corp" />
+        </div>
+        <div>
+          <label for="industry">Industry <em>(optional)</em></label>
+          <input id="industry" placeholder="Fintech" />
+        </div>
+      </div>
+      <div>
+        <label for="company_context">What the company does</label>
+        <textarea id="company_context" placeholder="Series B fintech building payment infrastructure for..."></textarea>
+      </div>
+      <div>
+        <label for="recipient_context">About them <em>(optional)</em></label>
+        <textarea id="recipient_context" placeholder="Background, prior companies, mutual connections..."></textarea>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <h2 class="section-title">Why you're writing</h2>
+    <p class="section-sub">This is the substance the model builds the letter around.</p>
+
+    <div class="field-group">
+      <div>
+        <label for="personalization_hook">A hook — something real about them</label>
+        <textarea id="personalization_hook" placeholder="Their recent talk on scaling infra, a launch, a LinkedIn post..."></textarea>
+      </div>
+      <div>
+        <label for="outreach_objective">What you're hoping happens</label>
+        <input id="outreach_objective" placeholder="Get a 20-minute intro call on the calendar" />
+      </div>
+      <div class="row2">
+        <div>
+          <label for="solution_name">Your product</label>
+          <input id="solution_name" placeholder="Observability platform" />
+        </div>
+        <div>
+          <label for="business_value">Why it matters to them</label>
+          <input id="business_value" placeholder="Cuts incident triage time by 40%" />
+        </div>
+      </div>
+      <div>
+        <label for="call_to_action">The ask</label>
+        <input id="call_to_action" placeholder="Open to a quick call next week?" />
+      </div>
+      <div class="row2">
+        <div>
+          <label for="tone">Tone</label>
+          <select id="tone">
+            <option>Professional</option>
+            <option>Friendly</option>
+            <option>Confident</option>
+            <option>Casual</option>
+            <option>Formal</option>
+          </select>
+        </div>
+        <div>
+          <label for="channel">Channel</label>
+          <select id="channel">
+            <option>Email</option>
+            <option>LinkedIn</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <button class="send" id="generateBtn" onclick="generate()">Write the email</button>
+    <div class="error-box" id="errorBox"></div>
+  </section>
+
+  <section class="letter-wrap">
+    <div class="letter" id="letter">
+      <div class="letter-empty" id="letterEmpty">
+        <div class="glyph">✒</div>
+        <p>Fill in the details on the left and the drafted email will appear here, ready to send or edit.</p>
+      </div>
+
+      <div id="letterContent" style="display:none; flex:1; display:flex; flex-direction:column;">
+        <div class="letterhead">
+          <div class="subject-block">
+            <div class="lbl">Subject</div>
+            <div class="val" id="outSubject"></div>
+          </div>
+          <div class="stamp">DRAFT</div>
+        </div>
+        <div class="letter-body" id="outEmail"></div>
+        <div class="letter-actions">
+          <button onclick="copyText('outSubject','Subject copied')">Copy subject</button>
+          <button onclick="copyFull()">Copy whole email</button>
+          <button onclick="generate()">Write again</button>
+          <span class="word-count" id="wordCount"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>Outreach Desk — generated with Groq · qwen/qwen3.6-27b</footer>
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const REQUIRED = ["executive_name","executive_role","company_name","company_context",
+  "personalization_hook","outreach_objective","solution_name","business_value","call_to_action"];
+
+function val(id) { return $(id).value.trim(); }
+
+function showError(msg) {
+  const box = $("errorBox");
+  box.textContent = msg;
+  box.style.display = msg ? "block" : "none";
+}
+
+function toast(msg) {
+  const t = $("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 1800);
+}
+
+async function generate() {
+  const missing = REQUIRED.filter((id) => !val(id));
+  if (missing.length) {
+    showError("Please fill in every field above the tone/channel row before writing.");
+    return;
+  }
+  showError("");
+
+  const btn = $("generateBtn");
+  btn.disabled = true;
+  btn.textContent = "Writing…";
+
+  const payload = {
+    executive_name: val("executive_name"),
+    executive_role: val("executive_role"),
+    company_name: val("company_name"),
+    industry: val("industry"),
+    company_context: val("company_context"),
+    recipient_context: val("recipient_context"),
+    personalization_hook: val("personalization_hook"),
+    outreach_objective: val("outreach_objective"),
+    solution_name: val("solution_name"),
+    business_value: val("business_value"),
+    call_to_action: val("call_to_action"),
+    tone: $("tone").value,
+    channel: $("channel").value
+  };
+
+  try {
+    const res = await fetch("/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    if (!res.ok) {
+      let detail = res.statusText;
+      try { const err = await res.json(); detail = err.detail || detail; } catch (_) {}
+      throw new Error(detail);
+    }
+
+    const data = await res.json();
+    $("outSubject").textContent = data.subject;
+    $("outEmail").textContent = data.email;
+    $("wordCount").textContent = data.email.trim().split(/\s+/).length + " words";
+    $("letterEmpty").style.display = "none";
+    $("letterContent").style.display = "flex";
+  } catch (err) {
+    showError(err.message || "Something went wrong talking to the server.");
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Write the email";
+  }
+}
+
+function copyText(id, msg) {
+  navigator.clipboard.writeText($(id).textContent).then(() => toast(msg));
+}
+
+function copyFull() {
+  const full = "Subject: " + $("outSubject").textContent + "\n\n" + $("outEmail").textContent;
+  navigator.clipboard.writeText(full).then(() => toast("Copied"));
+}
+</script>
+</body>
+</html>
